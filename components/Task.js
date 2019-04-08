@@ -1,18 +1,32 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Button, Divider, Icon } from 'react-native-elements';
+import { Button, Divider, Icon, CheckBox } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { deleteTask, completeTask } from '../redux/AppReducer';
 
-const Task = () => {
+const Task = ({ children, index, deleteTask, complete, completeTask }) => {
   return (
     <>
       <Divider />
 
       <View style={styles.container}>
-        <Text style={styles.text}>hello world</Text>
+        <CheckBox
+          checked={complete}
+          onPress={() => completeTask(index)}
+        />
+
+        <Text
+          style={{
+            ...styles.text,
+            textDecorationLine: complete ? 'line-through' : 'none'
+          }}
+        >{children}</Text>
   
         <Button
           icon={<Icon name="close" color="white" size={15} />}
           buttonStyle={styles.button}
+          containerStyle={styles.buttonContainer}
+          onPress={() => deleteTask(index)}
         />
       </View>
     </>
@@ -24,8 +38,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 12
+    justifyContent: 'flex-start',
+    position: 'relative',
+    width: '100%'
   },
   text: {
     fontSize: 17,
@@ -36,8 +51,13 @@ const styles = {
     height: 20,
     width: 20,
     borderRadius: 10,
-    padding: 0
+    padding: 0,
+    marginRight: 12
+  },
+  buttonContainer: {
+    position: 'absolute',
+    right: 0
   }
 }
 
-export default Task
+export default connect(null, { deleteTask, completeTask })(Task)
