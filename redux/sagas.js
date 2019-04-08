@@ -1,8 +1,7 @@
-import { takeEvery, select, put, call, takeLatest, delay } from 'redux-saga/effects';
+import { takeEvery, select, put, call, delay } from 'redux-saga/effects';
 import {
   APP_MOUNT,
   SET_TASKS_FROM_STORAGE,
-  APP_UPDATE,
   ADD_TASK,
   DELETE_TASK,
   COMPLETE_TASK

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Button, Divider, Icon, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { deleteTask, completeTask } from '../redux/AppReducer';
+import { DELETE_TASK, COMPLETE_TASK } from '../redux/AppReducer';
 
 const Task = ({ children, index, deleteTask, complete, completeTask }) => {
   return (
@@ -60,4 +60,11 @@ const styles = {
   }
 }
 
-export default connect(null, { deleteTask, completeTask })(Task)
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteTask: index => dispatch({ type: DELETE_TASK, payload: index }),
+    completeTask: index => dispatch({ type: COMPLETE_TASK, payload: index })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Task)

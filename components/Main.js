@@ -1,16 +1,11 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
 import { Card, Input, Button, Icon } from 'react-native-elements';
 import Task from './Task';
 import { connect } from 'react-redux';
-import { CHANGE_INPUT_VALUE, ADD_TASK, APP_MOUNT, APP_UPDATE } from '../redux/AppReducer';
+import { CHANGE_INPUT_VALUE, ADD_TASK, APP_MOUNT } from '../redux/AppReducer';
 class Main extends React.Component {
   componentDidMount() {
     this.props.appMount()
-  }
-  
-  componentDidUpdate() {
-    this.props.appUpdate()
   }
   
   render() {
@@ -68,7 +63,6 @@ const mapDispatchToProps = dispatch => {
     changeInputValue: text => dispatch({ type: CHANGE_INPUT_VALUE, payload: text }),
     addTask: () => dispatch({ type: ADD_TASK }),
     appMount: () => dispatch({ type: APP_MOUNT }),
-    appUpdate: () => dispatch({ type: APP_UPDATE })
   }
 }
 
