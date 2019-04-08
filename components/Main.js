@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollView } from 'react-native';
 import { Card, Input, Button, Icon } from 'react-native-elements';
 import Task from './Task';
 import { connect } from 'react-redux';
@@ -10,33 +11,35 @@ class Main extends React.Component {
   
   render() {
     return (
-      <Card
-        containerStyle={styles.container}
-        titleStyle={styles.title}
-        title="To do List"
-      >
-        <Input
-          value={this.props.inputValue}
-          onChangeText={this.props.changeInputValue}
-        />
-        
-        <Button
-          containerStyle={styles.button}
-          icon={<Icon name="add" color="white" />}
-          title="Add task"
-          onPress={this.props.addTask}
-        />
-
-        <>
-          {this.props.tasks.map((task, index) => (
-            <Task
-              key={`task#${index}`}
-              index={index}
-              complete={task.complete}
-            >{task.name}</Task>
-          ))}
-        </>
-      </Card>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Card
+          containerStyle={styles.container}
+          titleStyle={styles.title}
+          title="To do List"
+        >
+          <Input
+            value={this.props.inputValue}
+            onChangeText={this.props.changeInputValue}
+          />
+          
+          <Button
+            containerStyle={styles.button}
+            icon={<Icon name="add" color="white" />}
+            title="Add task"
+            onPress={this.props.addTask}
+          />
+  
+          <>
+            {this.props.tasks.map((task, index) => (
+              <Task
+                key={`task#${index}`}
+                index={index}
+                complete={task.complete}
+              >{task.name}</Task>
+            ))}
+          </>
+        </Card>
+      </ScrollView>
     )
   }
 }
@@ -50,6 +53,9 @@ const styles = {
   },
   button: {
     marginVertical: 20
+  },
+  scrollView: {
+    paddingBottom: 30
   }
 }
 
