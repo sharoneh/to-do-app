@@ -1,39 +1,49 @@
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 import { Card, Input, Button, Icon } from 'react-native-elements';
 import Task from './Task';
 import { connect } from 'react-redux';
-import { changeInputValue, addTask } from '../redux/AppReducer';
+import { CHANGE_INPUT_VALUE, ADD_TASK, APP_MOUNT, APP_UPDATE } from '../redux/AppReducer';
+class Main extends React.Component {
+  componentDidMount() {
+    this.props.appMount()
+  }
+  
+  componentDidUpdate() {
+    this.props.appUpdate()
+  }
+  
+  render() {
+    return (
+      <Card
+        containerStyle={styles.container}
+        titleStyle={styles.title}
+        title="To do List"
+      >
+        <Input
+          value={this.props.inputValue}
+          onChangeText={this.props.changeInputValue}
+        />
+        
+        <Button
+          containerStyle={styles.button}
+          icon={<Icon name="add" color="white" />}
+          title="Add task"
+          onPress={this.props.addTask}
+        />
 
-const Main = ({ inputValue, changeInputValue, tasks, addTask }) => {
-  return (
-    <Card
-      containerStyle={styles.container}
-      titleStyle={styles.title}
-      title="To do List"
-    >
-      <Input
-        value={inputValue}
-        onChangeText={changeInputValue}
-      />
-      
-      <Button
-        containerStyle={styles.button}
-        icon={<Icon name="add" color="white" />}
-        title="Add task"
-        onPress={addTask}
-      />
-
-      <>
-        {tasks.map((task, index) => (
-          <Task
-            key={`task#${index}`}
-            index={index}
-            complete={task.complete}
-          >{task.name}</Task>
-        ))}
-      </>
-    </Card>
-  )
+        <>
+          {this.props.tasks.map((task, index) => (
+            <Task
+              key={`task#${index}`}
+              index={index}
+              complete={task.complete}
+            >{task.name}</Task>
+          ))}
+        </>
+      </Card>
+    )
+  }
 }
 
 const styles = {
@@ -53,4 +63,13 @@ const mapStateToProps = state => {
   return { inputValue, tasks }
 }
 
-export default connect(mapStateToProps, { changeInputValue, addTask })(Main)
+const mapDispatchToProps = dispatch => {
+  return {
+    changeInputValue: text => dispatch({ type: CHANGE_INPUT_VALUE, payload: text }),
+    addTask: () => dispatch({ type: ADD_TASK }),
+    appMount: () => dispatch({ type: APP_MOUNT }),
+    appUpdate: () => dispatch({ type: APP_UPDATE })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

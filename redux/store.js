@@ -1,4 +1,10 @@
 import AppReducer from './AppReducer';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { mainSaga } from './sagas';
 
-export default createStore(AppReducer)
+const sagaMiddleware = createSagaMiddleware()
+
+export default createStore(AppReducer, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(mainSaga)
